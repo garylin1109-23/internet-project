@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDGs 資源共享平台</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft JhengHei", sans-serif;
+        background-color: #e0f7fa; /* 淺藍色背景 */
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #0288d1;
+        color: white;
+      }
+      .header-left {
+        display: flex;
+        align-items: center;
+      }
+      .logo {
+        height: 40px;
+        margin-right: 10px;
+      }
+      .header-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+      }
+      .navbar {
+        background-color: #0288d1;
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+      .dropdown {
+        position: relative;
+        margin-left: 20px;
+      }
+      .dropdown button {
+        background-color: #0288d1;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      .dropdown-content a {
+        color: black;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .main-image {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="header-left">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/SDG_logo_with_UN_emblem_square_transparent_web.png/150px-SDG_logo_with_UN_emblem_square_transparent_web.png"
+          alt="SDGs Logo"
+          class="logo"
+        />
+      </div>
+      <span class="header-title"
+        >資源共享平台 - 本平台旨在促進資源共享，實現永續發展目標（SDGs）</span
+      >
+    </div>
+    <div class="navbar">
+      <div class="dropdown">
+        <button>資源共享</button>
+        <div class="dropdown-content">
+          <a href="#">食物共享</a>
+          <a href="#">衣物捐贈</a>
+          <a href="#">書籍 / 教材</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button>平台功能</button>
+        <div class="dropdown-content">
+          <a href="#">發布 / 申請資源</a>
+          <a href="#">用戶評價</a>
+          <a href="#">登入</a>
+        </div>
+      </div>
+    </div>
+    <img
+      src="c:\Users\User\Downloads\人們資源共享.png"
+      alt="資源共享圖片"
+      class="main-image"
+    />
+  </body>
+</html>
