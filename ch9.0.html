@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>拾味有物</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #90eecd, #98fb98);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* 氣泡動畫 */
+      .bubble {
+        position: absolute;
+        background: #90afee(255, 255, 255, 0.6);
+        border-radius: 50%;
+        animation: float-bubble 15s infinite linear;
+        pointer-events: none;
+      }
+
+      @keyframes float-bubble {
+        0% {
+          opacity: 0;
+          transform: translateY(100vh) scale(0);
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-100px) scale(1);
+        }
+      }
+
+      /* 導航欄 */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c5f89;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-btn {
+        background: linear-gradient(45deg, #4682b4, #5f9ea0);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropdown-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .dropdown-content {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 180px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 1001;
+      }
+
+      .dropdown:hover .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 12px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-radius: 15px;
+      }
+
+      .dropdown-item:hover {
+        background: linear-gradient(45deg, #87ceeb, #b0e0e6);
+        color: white;
+      }
+
+      /* 主要內容區域 */
+      .main-content {
+        margin-top: 100px;
+        padding: 0 20px;
+      }
+
+      .hero-section {
+        text-align: center;
+        padding: 80px 0;
+        animation: fadeInUp 1s ease;
+      }
+
+      .hero-title {
+        font-size: 3.5em;
+        color: #2c5f89;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        animation: bounceIn 1.5s ease;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5em;
+        color: #4682b4;
+        animation: slideInLeft 1s ease 0.5s both;
+      }
+
+      /* 資源分類區域 */
+      .categories-section {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 80px auto;
+        padding: 0 20px;
+      }
+
+      .category-block {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 25px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        animation: slideInUp 0.8s ease;
+      }
+
+      .category-block:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .category-title {
+        font-size: 1.8em;
+        color: #2c5f89;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .resource-card {
+        background: white;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        padding: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .resource-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-image {
+        width: 100%;
+        height: 120px;
+        background: linear-gradient(45deg, #ffb366, #ffcc99);
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .card-info {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.4;
+      }
+
+      .card-info strong {
+        color: #2c5f89;
+      }
+
+      /* 評價雲朵區域 */
+      .reviews-section {
+        min-height: 100vh;
+        position: relative;
+        overflow: hidden;
+        padding: 80px 20px;
+      }
+
+      .reviews-title {
+        text-align: center;
+        font-size: 2.5em;
+        color: #2c5f89;
+        margin-bottom: 50px;
+        animation: fadeInDown 1s ease;
+      }
+
+      .cloud {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50px;
+        padding: 20px 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        animation: float 20s linear infinite;
+        max-width: 300px;
+      }
+
+      .cloud::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid rgba(255, 255, 255, 0.9);
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateX(-100px) translateY(-100px);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(calc(100vw + 100px)) translateY(100vh);
+          opacity: 0;
+        }
+      }
+
+      /* 發佈表單 */
+      .publish-form {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        width: 300px;
+        background: #d3d3d3;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: translateX(350px);
+        transition: all 0.5s ease;
+        z-index: 999;
+      }
+
+      .publish-form.show {
+        transform: translateX(0);
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2c5f89;
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .form-group input[type="file"] {
+        padding: 5px;
+        background: white;
+      }
+
+      .image-preview {
+        margin-top: 10px;
+        max-width: 100%;
+        max-height: 150px;
+        border-radius: 8px;
+        display: none;
+      }
+
+      .form-group textarea {
+        height: 80px;
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background: linear-gradient(45deg, #4682b4, #5f9ea0);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      /* 登入/註冊模態框 */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: #ffd700;
+        border-radius: 25px;
+        padding: 40px;
+        width: 400px;
+        max-width: 90vw;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        transform: scale(0.7);
+        transition: all 0.3s ease;
+      }
+
+      .modal.show .modal-content {
+        transform: scale(1);
+      }
+
+      .modal-title {
+        text-align: center;
+        font-size: 2em;
+        color: #2c5f89;
+        margin-bottom: 30px;
+      }
+
+      .modal-form .form-group {
+        margin-bottom: 20px;
+      }
+
+      .modal-form input {
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 25px;
+      }
+
+      .modal-btn {
+        background: linear-gradient(45deg, #4682b4, #5f9ea0);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #2c5f89;
+      }
+
+      /* 動畫效果 */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+        70% {
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 響應式設計 */
+      @media (max-width: 768px) {
+        .categories-section {
+          flex-direction: column;
+        }
+
+        .hero-title {
+          font-size: 2.5em;
+        }
+
+        .nav-menu {
+          gap: 15px;
+        }
+
+        .dropdown-btn {
+          padding: 8px 15px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 導航欄 -->
+    <nav>
+      <div class="nav-container">
+        <div class="logo">拾味有物</div>
+        <div class="nav-menu">
+          <div class="dropdown">
+            <button class="dropdown-btn">資源共享</button>
+            <div class="dropdown-content">
+              <a href="#food" class="dropdown-item">食物</a>
+              <a href="#clothing" class="dropdown-item">衣服</a>
+              <a href="#books" class="dropdown-item">書籍</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-btn">平台功能</button>
+            <div class="dropdown-content">
+              <a href="#" class="dropdown-item" onclick="togglePublishForm()"
+                >發佈</a
+              >
+              <a href="#reviews" class="dropdown-item">用戶評價</a>
+              <a href="#" class="dropdown-item" onclick="openModal()"
+                >註冊/登入</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <!-- 主標題區域 -->
+      <div class="hero-section">
+        <h1 class="hero-title">歡迎來到拾味有物</h1>
+        <p class="hero-subtitle">分享資源，溫暖社區</p>
+      </div>
+
+      <!-- 資源分類區域 -->
+      <div class="categories-section" id="categories">
+        <div class="category-block" id="food">
+          <h2 class="category-title">🍎 食物</h2>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300&h=200&fit=crop"
+                alt="新鮮蘋果"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='新鮮蘋果';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>張睿浩<br />
+              <strong>地址：</strong>台北市金山區<br />
+              <strong>聯絡：</strong>0909881779<br />
+              <strong>描述：</strong>家中蘋果過多，希望分享給需要的人
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=300&h=200&fit=crop"
+                alt="自製麵包"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='自製麵包';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Kevin<br />
+              <strong>地址：</strong>南投縣草屯鎮<br />
+              <strong>聯絡：</strong>0923689768<br />
+              <strong>描述：</strong>手工製作的健康麵包，分享給大家
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://s.yimg.com/zp/MerchandiseImages/fa636ebd2d-Gd-984394.jpg"
+                alt="舒跑"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='有機蔬菜';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>陳冠廷<br />
+              <strong>地址：</strong>桃園市中壢區<br />
+              <strong>聯絡：</strong>0966520344<br />
+              <strong>描述：</strong>夾到很多瓶舒跑，自己喝不完
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://down-tw.img.susercontent.com/file/tw-11134207-7r98s-lxorkd67p7ow80"
+                alt="二手衣服"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='水果拼盤';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>張雅婷<br />
+              <strong>地址：</strong>台中市西區<br />
+              <strong>聯絡：</strong>0945460696<br />
+              <strong>描述：</strong>衣服穿不下了
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://i5.momoshop.com.tw/1746699619/goodsimg/TP000/0152/0000/119/TP00001520000119_O_m.jpg"
+                alt="即期食品"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='即期食品';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>劉大壯<br />
+              <strong>地址：</strong>高雄市前金區<br />
+              <strong>聯絡：</strong>0988789012<br />
+              <strong>描述：</strong>即期的泡麵
+            </div>
+          </div>
+        </div>
+
+        <div class="category-block" id="clothing">
+          <h2 class="category-title">👕 衣服</h2>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=200&fit=crop"
+                alt="冬季外套"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='冬季外套';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>崔欣寶<br />
+              <strong>地址：</strong>台南市中西區<br />
+              <strong>聯絡：</strong>0967890123<br />
+              <strong>描述：</strong>八成新的保暖外套
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9W9uViDxFk_m7GJNMNGevxC9dV3Ph4AMW-g&s"
+                alt="兒童服飾"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='兒童服飾';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>林有傑<br />
+              <strong>地址：</strong>新竹市東區<br />
+              <strong>聯絡：</strong>0978901234<br />
+              <strong>描述：</strong>孩子長大不合穿的童裝
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://cbu01.alicdn.com/img/ibank/O1CN01wfbGl61IUsHftI6Px_!!2218881130897-0-cib.310x310.jpg"
+                alt="專業套裝"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='職業套裝';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>梁佩君<br />
+              <strong>地址：</strong>基隆市仁愛區<br />
+              <strong>聯絡：</strong>0989012345<br />
+              <strong>描述：</strong>瑕疵的專業服裝
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://cf.shopee.tw/file/tw-11134207-7r990-lylr4ioy4dtgba"
+                alt="運動褲"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='運動服飾';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>林芳誼<br />
+              <strong>地址：</strong>南投縣名間鄉<br />
+              <strong>聯絡：</strong>0990123645<br />
+              <strong>描述：</strong>學校運動褲
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQIoHv6FbozeDPMs5qmegMxpEuXLRFVASGB_HoeQrtsbBJMEUyLq4icVJSwxEi6oNELn9rtX4uwHomirDNWOq7h4gs9JAcfAN862wvrKo0LLSzHYhty-WosHXwDnw7KLfXzqe94tAfD&usqp=CAc"
+                alt="時尚配件"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='時尚配件';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>張家榛<br />
+              <strong>地址：</strong>雲林縣虎尾鎮<br />
+              <strong>聯絡：</strong>0901567886<br />
+              <strong>描述：</strong>不要的 帽子
+            </div>
+          </div>
+        </div>
+
+        <div class="category-block" id="books">
+          <h2 class="category-title">📚 書籍</h2>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="data:image/jpeg;base64,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"
+                alt="教科書"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='教科書';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>大帥哥<br />
+              <strong>地址：</strong>嘉義市西區<br />
+              <strong>聯絡：</strong>0981731269<br />
+              <strong>描述：</strong>大學教科書
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRY75o2ZnYBb6XxSzALVISaQp8awKB1-qPGGH8eOgBwgWTZlnDjoficiC9z-gmYiMgQ7MoOh8ZsD8Pnn3fwZxEId37cwz5QWerKxBJu75_H1UBNma6QlZ6TTc4Fi4sgHgHBnvYVl8w&usqp=CAc"
+                alt="乾淨襪子"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='小說文學';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>小屁孩<br />
+              <strong>地址：</strong>屏東市中正區<br />
+              <strong>聯絡：</strong>0963779251<br />
+              <strong>描述：</strong>沒穿過的襪子
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://s.yimg.com/zp/MerchandiseImages/E0D4F19825-SP-11911880.jpg"
+                alt="計算機概論"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='工具書';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>齊天大聖<br />
+              <strong>地址：</strong>花蓮縣花蓮市<br />
+              <strong>聯絡：</strong>0945264132<br />
+              <strong>描述：</strong>計算機概論
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="data:image/webp;base64,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"
+                alt="兒童繪本"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='兒童繪本';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>可愛人<br />
+              <strong>地址：</strong>台東縣台東市<br />
+              <strong>聯絡：</strong>0969508747<br />
+              <strong>描述：</strong>精美兒童繪本
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://5mtz55f1.tinifycdn.com/storage/app/uploads/public/64f/010/1e4/64f0101e46381164248985.jpg?resize.method=cover&resize.width=1200&resize.height=800"
+                alt="雜誌期刊"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='雜誌期刊';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>呂柏薰<br />
+              <strong>地址：</strong>澎湖縣馬公市<br />
+              <strong>聯絡：</strong>0956789012<br />
+              <strong>描述：</strong>各類雜誌期刊
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 用戶評價區域 -->
+      <div class="reviews-section" id="reviews">
+        <h2 class="reviews-title">用戶評價</h2>
+      </div>
+    </div>
+
+    <!-- 發佈表單 -->
+    <div class="publish-form" id="publishForm">
+      <h3 style="color: #2c5f89; margin-bottom: 20px; text-align: center">
+        發佈資源
+      </h3>
+      <form id="publishFormContent">
+        <div class="form-group">
+          <label>圖片上傳</label>
+          <input type="file" id="imageUpload" accept="image/*" disabled />
+          <img id="imagePreview" class="image-preview" alt="圖片預覽" />
+        </div>
+        <div class="form-group">
+          <label>使用者名稱</label>
+          <input
+            type="text"
+            id="userName"
+            placeholder="請輸入您的名稱"
+            disabled
+          />
+        </div>
+        <div class="form-group">
+          <label>地址</label>
+          <input
+            type="text"
+            id="userAddress"
+            placeholder="縣市+行政區"
+            disabled
+          />
+        </div>
+        <div class="form-group">
+          <label>聯絡方式</label>
+          <input
+            type="text"
+            id="userContact"
+            placeholder="電話或其他聯絡方式"
+            disabled
+          />
+        </div>
+        <div class="form-group">
+          <label>物品描述</label>
+          <textarea
+            id="itemDetails"
+            placeholder="詳細描述您要分享的物品"
+            disabled
+          ></textarea>
+        </div>
+        <button type="submit" class="submit-btn" disabled>發佈資源</button>
+      </form>
+      <p
+        style="
+          text-align: center;
+          margin-top: 10px;
+          font-size: 12px;
+          color: #666;
+        "
+      >
+        請先登入才能使用發佈功能
+      </p>
+    </div>
+
+    <!-- 登入/註冊模態框 -->
+    <div class="modal" id="loginModal">
+      <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <h2 class="modal-title">登入 / 註冊</h2>
+        <form class="modal-form" id="loginForm">
+          <div class="form-group">
+            <label>使用者名稱/暱稱</label>
+            <input type="text" id="loginUsername" required />
+          </div>
+          <div class="form-group">
+            <label>密碼</label>
+            <input type="password" id="loginPassword" required />
+          </div>
+          <button type="submit" class="modal-btn">登入</button>
+          <button
+            type="button"
+            class="modal-btn"
+            onclick="register()"
+            style="background: linear-gradient(45deg, #32cd32, #228b22)"
+          >
+            註冊
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let isLoggedIn = false;
+      let currentUser = "";
+
+      // 生成評價雲朵
+      function createReviewCloud() {
+        const reviews = [
+          {
+            user: "張睿浩",
+
+            content: "這個平台真的很棒！成功分享了很多物品",
+          },
+          {
+            user: "Kevin",
+
+            content: "找到了需要的書籍，非常感謝！",
+          },
+          {
+            user: "陳冠廷",
+
+            content: "食物分享讓社區更溫暖",
+          },
+          {
+            user: "張雅婷",
+
+            content: "衣服狀況很好，省了不少錢",
+          },
+          {
+            user: "劉大壯",
+
+            content: "平台介面友善，使用方便",
+          },
+          {
+            user: "崔欣寶",
+
+            content: "資源共享的理念很棒！",
+          },
+          {
+            user: "林有傑",
+
+            content: "幫助了很多需要幫助的人",
+          },
+          {
+            user: "梁佩君",
+
+            content: "物品描述詳細，交易順利",
+          },
+          {
+            user: "林芳誼",
+
+            content: "社區互助的好平台",
+          },
+          {
+            user: "張家榛",
+
+            content: "評價系統讓交易更安心",
+          },
+        ];
+
+        const reviewsSection = document.getElementById("reviews");
+
+        function addCloud() {
+          const review = reviews[Math.floor(Math.random() * reviews.length)];
+          const cloud = document.createElement("div");
+          cloud.className = "cloud";
+          cloud.style.left = Math.random() * -200 + "px";
+          cloud.style.top = Math.random() * (window.innerHeight - 200) + "px";
+          cloud.style.animationDelay = Math.random() * 2 + "s";
+          cloud.style.animationDuration = 15 + Math.random() * 10 + "s";
+
+          cloud.innerHTML = `
+                    <strong>${review.user}</strong><br>
+                    <small>${review.location}</small><br>
+                    ${review.content}
+                `;
+
+          reviewsSection.appendChild(cloud);
+
+          // 移除動畫完成的雲朵
+          setTimeout(() => {
+            if (cloud.parentNode) {
+              cloud.parentNode.removeChild(cloud);
+            }
+          }, 25000);
+        }
+
+        // 定期生成雲朵
+        setInterval(addCloud, 2000);
+
+        // 初始生成幾個雲朵
+        for (let i = 0; i < 5; i++) {
+          setTimeout(addCloud, i * 1000);
+        }
+      }
+
+      // 切換發佈表單顯示
+      function togglePublishForm() {
+        const form = document.getElementById("publishForm");
+        if (form.classList.contains("show")) {
+          form.classList.remove("show");
+        } else {
+          form.classList.add("show");
+        }
+      }
+
+      // 開啟登入模態框
+      function openModal() {
+        document.getElementById("loginModal").classList.add("show");
+      }
+
+      // 關閉登入模態框
+      function closeModal() {
+        document.getElementById("loginModal").classList.remove("show");
+      }
+
+      // 登入功能
+      function login(username) {
+        isLoggedIn = true;
+        currentUser = username;
+
+        // 啟用發佈表單
+        const formElements = document.querySelectorAll(
+          "#publishFormContent input, #publishFormContent textarea, #publishFormContent button"
+        );
+        formElements.forEach((element) => {
+          element.disabled = false;
+        });
+
+        // 更新提示文字
+        document.querySelector(
+          ".publish-form p"
+        ).innerHTML = `歡迎您，${username}！您現在可以發佈資源了`;
+
+        closeModal();
+        alert(`歡迎登入，${username}！`);
+      }
+
+      // 註冊功能
+      function register() {
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
+
+        if (username && password) {
+          alert(`註冊成功！歡迎加入，${username}！`);
+          login(username);
+        } else {
+          alert("請填寫完整資訊");
+        }
+      }
+
+      // 平滑滾動到指定區域
+      function smoothScrollTo(target) {
+        const element = document.querySelector(target);
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }
+
+      // 處理表單提交
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const username = document.getElementById("loginUsername").value;
+          const password = document.getElementById("loginPassword").value;
+
+          if (username && password) {
+            login(username);
+          } else {
+            alert("請填寫完整資訊");
+          }
+        });
+
+      // 處理發佈表單提交
+      document
+        .getElementById("publishFormContent")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          if (!isLoggedIn) {
+            alert("請先登入才能發佈資源");
+            return;
+          }
+
+          const description = document.getElementById("itemDescription").value;
+          const userName = document.getElementById("userName").value;
+          const address = document.getElementById("userAddress").value;
+          const contact = document.getElementById("userContact").value;
+          const details = document.getElementById("itemDetails").value;
+
+          if (description && userName && address && contact && details) {
+            alert("資源發佈成功！感謝您的分享！");
+            // 清空表單
+            this.reset();
+            // 隱藏表單
+            document.getElementById("publishForm").classList.remove("show");
+          } else {
+            alert("請填寫完整資訊");
+          }
+        });
+
+      // 處理下拉選單點擊事件
+      document.querySelectorAll(".dropdown-item").forEach((item) => {
+        item.addEventListener("click", function (e) {
+          const href = this.getAttribute("href");
+          if (href && href.startsWith("#") && href.length > 1) {
+            e.preventDefault();
+            smoothScrollTo(href);
+          }
+        });
+      });
+
+      // 點擊模態框外部關閉
+      document
+        .getElementById("loginModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      // 滾動效果
+      window.addEventListener("scroll", function () {
+        const cards = document.querySelectorAll(".resource-card");
+        const categoryBlocks = document.querySelectorAll(".category-block");
+
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            card.style.animationPlayState = "running";
+          }
+        });
+
+        categoryBlocks.forEach((block, index) => {
+          const rect = block.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            block.style.animationDelay = index * 0.2 + "s";
+            block.style.animationPlayState = "running";
+          }
+        });
+      });
+
+      // 頁面載入完成後的初始化
+      document.addEventListener("DOMContentLoaded", function () {
+        // 開始生成評價雲朵
+        createReviewCloud();
+
+        // 添加頁面載入動畫
+        setTimeout(() => {
+          document.body.style.opacity = "1";
+        }, 100);
+
+        // 為卡片添加交錯動畫
+        const cards = document.querySelectorAll(".resource-card");
+        cards.forEach((card, index) => {
+          card.style.animationDelay = index * 0.1 + "s";
+        });
+      });
+
+      // 響應式選單切換
+      function toggleMobileMenu() {
+        const navMenu = document.querySelector(".nav-menu");
+        navMenu.classList.toggle("mobile-active");
+      }
+
+      // 添加視差滾動效果
+      window.addEventListener("scroll", function () {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll(".hero-section");
+
+        parallaxElements.forEach((element) => {
+          const speed = 0.5;
+          element.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+      });
+
+      // 添加滑鼠懸停音效提示（視覺反饋）
+      document
+        .querySelectorAll(".dropdown-btn, .submit-btn, .modal-btn")
+        .forEach((button) => {
+          button.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-2px) scale(1.05)";
+          });
+
+          button.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0) scale(1)";
+          });
+        });
+
+      // 添加鍵盤導航支援
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeModal();
+          document.getElementById("publishForm").classList.remove("show");
+        }
+      });
+    </script>
+  </body>
+</html>
