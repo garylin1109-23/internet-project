@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>拾味有物</title>
+    <style>
+      /* 請將以下所有內容複製，並貼到您的 HTML 文件中 <style> 標籤內 */
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #90eecd, #98fb98);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+      /* 導航欄 */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        padding: 15px 0;
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c5f89;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-btn {
+        background: linear-gradient(45deg, #4682b4, #5f9ea0);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropdown-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .dropdown-content {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        min-width: 180px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 1001;
+      }
+
+      .dropdown:hover .dropdown-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 12px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-radius: 15px;
+      }
+
+      .dropdown-item:hover {
+        background: linear-gradient(45deg, #87ceeb, #b0e0e6);
+        color: white;
+      }
+
+      /* 主要內容區域 */
+      .main-content {
+        margin-top: 100px;
+        padding: 0 20px;
+      }
+
+      .hero-section {
+        text-align: center;
+        padding: 80px 0;
+        animation: fadeInUp 1s ease;
+      }
+
+      .hero-title {
+        font-size: 3.5em;
+        color: #2c5f89;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        animation: bounceIn 1.5s ease;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5em;
+        color: #4682b4;
+        animation: slideInLeft 1s ease 0.5s both;
+      }
+
+      /* 資源分類區域 */
+      .categories-section {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 80px auto;
+        padding: 0 20px;
+      }
+
+      .category-block {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 25px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        animation: slideInUp 0.8s ease;
+      }
+
+      .category-block:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .category-title {
+        font-size: 1.8em;
+        color: #2c5f89;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .resource-card {
+        background: white;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        padding: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .resource-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-image {
+        width: 100%;
+        height: 120px;
+        background: linear-gradient(
+          45deg,
+          #ffb366,
+          #ffcc99
+        ); /* 預設背景，若圖片未載入或為空 */
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .card-info {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.4;
+      }
+
+      .card-info strong {
+        color: #2c5f89;
+      }
+
+      /* 評價雲朵區域 */
+      .reviews-section {
+        /* min-height: 100vh; */ /* 可以移除或設為較小值，因為評價將以卡片形式堆疊 */
+        position: relative;
+        overflow: hidden;
+        padding: 80px 20px;
+      }
+
+      .reviews-title {
+        text-align: center;
+        font-size: 2.5em;
+        color: #2c5f89;
+        margin-bottom: 50px;
+        animation: fadeInDown 1s ease;
+      }
+
+      /* 舊的 .cloud 樣式，JavaScript 將會把這些元素轉換成 .review-card */
+      /* 您可以保留，或者將其 display: none; 如果不想看到舊的雲朵效果 */
+      .cloud {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50px;
+        padding: 20px 30px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        animation: float 20s linear infinite; /* 即使隱藏，動畫定義也還在 */
+        max-width: 300px;
+        position: absolute; /* 這是其漂浮的關鍵，當轉為 review-card 時會移除 */
+        display: none; /* 建議將預設的雲朵隱藏，交由 JS 處理 */
+      }
+
+      .cloud::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid rgba(255, 255, 255, 0.9);
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateX(-100px) translateY(-100px) rotate(0deg); /* 增加 rotate */
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(calc(100vw + 100px)) translateY(100vh)
+            rotate(360deg); /* 增加 rotate */
+          opacity: 0;
+        }
+      }
+
+      /* 新增或修改用於評價卡片的樣式 */
+      .review-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px; /* 稍微圓角，保持設計風格 */
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        min-height: 100px; /* 確保卡片有一定高度 */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .review-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .review-card p {
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .review-card strong {
+        color: #2c5f89;
+        font-size: 1.1em;
+      }
+
+      /* 發佈表單 */
+      .publish-form {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        width: 350px; /* 增加寬度以容納更多內容 */
+        background: #d3d3d3;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: translateX(380px); /* 根據新寬度調整translateX值 */
+        transition: all 0.5s ease;
+        z-index: 999;
+        box-sizing: border-box; /* 確保padding不會增加總寬度 */
+        display: flex; /* 使用flexbox佈局 */
+        flex-direction: column; /* 垂直排列子元素 */
+        gap: 15px; /* 增加元素間的間距，使內容更舒展 */
+
+        /* 新增滾輪功能 */
+        max-height: calc(
+          100vh - 120px
+        ); /* 計算最大高度，預留頂部導航和底部一些空間 */
+        overflow-y: auto; /* 當內容超出時顯示垂直滾輪 */
+        padding-right: 15px; /* 為滾輪預留空間，避免內容被遮擋 */
+      }
+
+      /* 隱藏預設滾動條樣式，但仍保持功能 */
+      .publish-form::-webkit-scrollbar {
+        width: 8px; /* 滾動條寬度 */
+      }
+
+      .publish-form::-webkit-scrollbar-track {
+        background: #f1f1f1; /* 滾動條軌道背景 */
+        border-radius: 10px;
+      }
+
+      .publish-form::-webkit-scrollbar-thumb {
+        background: #888; /* 滾動條顏色 */
+        border-radius: 10px;
+      }
+
+      .publish-form::-webkit-scrollbar-thumb:hover {
+        background: #555; /* 滾動條懸停顏色 */
+      }
+
+      .publish-form.show {
+        transform: translateX(0);
+      }
+
+      .publish-form h2 {
+        margin-bottom: 0; /* 移除標題的下邊距，由gap控制 */
+      }
+
+      .form-group {
+        margin-bottom: 0; /* 移除form-group的下邊距，由父容器gap控制 */
+        display: flex;
+        flex-direction: column; /* 確保label和input垂直排列 */
+        width: 100%; /* 確保form-group佔滿可用寬度 */
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2c5f89;
+        font-weight: bold;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        /* 為 select 添加樣式 */
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        box-sizing: border-box; /* 確保padding不會增加input/textarea的寬度 */
+        background-color: white; /* 確保 select 背景為白色 */
+      }
+
+      /* 針對檔案選擇按鈕和顯示檔案名調整樣式 */
+      .form-group input[type="file"] {
+        padding: 5px;
+        background: white;
+        /* 根據瀏覽器差異，可能需要額外調整其顯示方式 */
+      }
+
+      /* 調整圖片預覽樣式 */
+      .image-preview {
+        margin-top: 10px;
+        max-width: 100%; /* 確保圖片不會超出父容器 */
+        max-height: 180px; /* 增加最大高度，但保持自動調整 */
+        height: auto; /* 自動調整高度以保持比例 */
+        object-fit: contain; /* 確保圖片完整顯示，而不是裁剪 */
+        border-radius: 8px;
+        display: none; /* 預設隱藏，由JS控制顯示 */
+        border: 1px solid #eee; /* 增加邊框讓預覽更清晰 */
+      }
+
+      .form-group textarea {
+        height: 100px; /* 增加描述文本框高度 */
+        resize: vertical;
+      }
+
+      .submit-btn {
+        background: linear-gradient(45deg, #4682b4, #5f9ea0);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        transition: all 0.3s ease;
+        margin-top: auto; /* 將按鈕推到底部，利用flexbox的特性 */
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .publish-form p {
+        text-align: center;
+        margin-top: 0; /* 移除原有的上邊距，由gap控制 */
+        color: #2c5f89;
+        font-weight: bold;
+        font-size: 0.9em; /* 可以適當縮小字體 */
+      }
+
+      /* 登入/註冊模態框 */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: #ffd700;
+        border-radius: 25px;
+        padding: 40px;
+        width: 400px;
+        max-width: 90vw;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        transform: scale(0.7);
+        transition: all 0.3s ease;
+      }
+
+      .modal.show .modal-content {
+        transform: scale(1);
+      }
+
+      .modal-title {
+        text-align: center;
+        font-size: 2em;
+        color: #2c5f89;
+        margin-bottom: 30px;
+      }
+
+      .modal-form .form-group {
+        margin-bottom: 20px;
+      }
+
+      .modal-form input {
+        padding: 15px;
+        font-size: 16px;
+        border-radius: 25px;
+      }
+
+      .modal-btn {
+        background: linear-gradient(45deg, #4682b4, #5f9ea0);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #2c5f89;
+      }
+
+      /* 動畫效果 */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+        70% {
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* 響應式設計 */
+      @media (max-width: 768px) {
+        .categories-section {
+          flex-direction: column;
+        }
+
+        .hero-title {
+          font-size: 2.5em;
+        }
+
+        .nav-menu {
+          gap: 15px;
+        }
+
+        .dropdown-btn {
+          padding: 8px 15px;
+          font-size: 14px;
+        }
+      } /* 將「2. CSS 程式碼」部分的內容貼到這裡 */
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <div class="logo">拾味有物</div>
+        <div class="nav-menu">
+          <div class="dropdown">
+            <button class="dropdown-btn">資源共享</button>
+            <div class="dropdown-content">
+              <a href="#food" class="dropdown-item">食物</a>
+              <a href="#clothing" class="dropdown-item">衣服</a>
+              <a href="#books" class="dropdown-item">書籍</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-btn">平台功能</button>
+            <div class="dropdown-content">
+              <a href="#" class="dropdown-item" onclick="togglePublishForm()"
+                >發佈</a
+              >
+              <a href="#reviews" class="dropdown-item">用戶評價</a>
+              <a href="#" class="dropdown-item" onclick="openModal()"
+                >註冊/登入</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div class="hero-section">
+        <h1 class="hero-title">歡迎來到拾味有物</h1>
+        <p class="hero-subtitle">分享資源，溫暖社區</p>
+      </div>
+
+      <div class="categories-section" id="categories">
+        <div class="category-block" id="food">
+          <h2 class="category-title">🍎 食物</h2>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300&h=200&fit=crop"
+                alt="新鮮蘋果"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='新鮮蘋果';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>張睿浩<br />
+              <strong>地址：</strong>台北市金山區<br />
+              <strong>聯絡：</strong>0909881779<br />
+              <strong>描述：</strong>家中蘋果過多，希望分享給需要的人
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=300&h=200&fit=crop"
+                alt="自製麵包"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='自製麵包';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Kevin<br />
+              <strong>地址：</strong>南投縣草屯鎮<br />
+              <strong>聯絡：</strong>0923689768<br />
+              <strong>描述：</strong>手工製作的健康麵包，分享給大家
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://s.yimg.com/zp/MerchandiseImages/fa636ebd2d-Gd-984394.jpg"
+                alt="舒跑"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='運動飲料';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>陳冠廷<br />
+              <strong>地址：</strong>桃園市中壢區<br />
+              <strong>聯絡：</strong>0966520344<br />
+              <strong>描述：</strong>夾到很多瓶舒跑，自己喝不完
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://th.bing.com/th/id/OIP.vYjOe4c6vP09x-IyC-OFJwHaFM?w=220&h=180&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3"
+                alt="珍珠奶茶"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='珍奶';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Adam<br />
+              <strong>地址：</strong>台中市西區<br />
+              <strong>聯絡：</strong>0945460696<br />
+              <strong>描述：</strong>這是我製作的珍奶，可以分享給其他人
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://i5.momoshop.com.tw/1746699619/goodsimg/TP000/0152/0000/119/TP00001520000119_O_m.jpg"
+                alt="即期食品"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='即期食品';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Alan<br />
+              <strong>地址：</strong>高雄市前金區<br />
+              <strong>聯絡：</strong>0988789012<br />
+              <strong>描述：</strong>即期的泡麵
+            </div>
+          </div>
+        </div>
+
+        <div class="category-block" id="clothing">
+          <h2 class="category-title">👕 衣服</h2>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=200&fit=crop"
+                alt="冬季外套"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='冬季外套';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Bob<br />
+              <strong>地址：</strong>台南市中西區<br />
+              <strong>聯絡：</strong>0967890123<br />
+              <strong>描述：</strong>八成新的皮夾外套
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9W9uViDxFk_m7GJNMNGevxC9dV3Ph4AMW-g&s"
+                alt="兒童服飾"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='兒童服飾';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Andrew<br />
+              <strong>地址：</strong>新竹市東區<br />
+              <strong>聯絡：</strong>0978901234<br />
+              <strong>描述：</strong>孩子長大不合穿的童裝
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://cbu01.alicdn.com/img/ibank/O1CN01wfbGl61IUsHftI6Px_!!2218881130897-0-cib.310x310.jpg"
+                alt="職業套裝"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='職業套裝';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Wayne<br />
+              <strong>地址：</strong>基隆市仁愛區<br />
+              <strong>聯絡：</strong>0989012345<br />
+              <strong>描述：</strong>我自己批發販賣而剩下的的服裝
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://cf.shopee.tw/file/tw-11134207-7r990-lylr4ioy4dtgba"
+                alt="運動褲"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='運動服飾';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Ann<br />
+              <strong>地址：</strong>南投縣名間鄉<br />
+              <strong>聯絡：</strong>0990123645<br />
+              <strong>描述：</strong>以清潔的男士運動服
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQIoHv6FbozeDPMs5qmegMxpEuXLRFVASGB_HoeQrtsbBJMEUyLq4icVJSwxEi6oNELn9rtX4uwHomirDNWOq7h4gs9JAcfAN862wvrKo0LLSzHYhty-WosHXwDnw7KLfXzqe94tAfD&usqp=CAc"
+                alt="時尚配件"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='時尚配件';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Emily<br />
+              <strong>地址：</strong>台北市信義區<br />
+              <strong>聯絡：</strong>0901567886<br />
+              <strong>描述：</strong>完好無缺但自己無法帶下的帽子
+            </div>
+          </div>
+        </div>
+
+        <div class="category-block" id="books">
+          <h2 class="category-title">📚 書籍</h2>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://cdn.kingstone.com.tw/book/images/product/20187/2018740638214/2018740638214b.jpg?v=92be8"
+                alt="小說"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='歐美文學';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Eric<br />
+              <strong>地址：</strong>花蓮縣花蓮市<br />
+              <strong>聯絡：</strong>0977889900<br />
+              <strong>描述：</strong>自己已看完的歐美科幻小說
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://cdn.kingstone.com.tw/book/images/product/20147/2014713673732/2014713673732b.jpg?v=0b1e9"
+                alt="資訊安全"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='自學書';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>齊天大聖<br />
+              <strong>地址：</strong>彰化縣員林市<br />
+              <strong>聯絡：</strong>0912345678<br />
+              <strong>描述：</strong>自學讀物
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://s.yimg.com/zp/MerchandiseImages/E0D4F19825-SP-11911880.jpg"
+                alt="教科書"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='教科書';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Grace<br />
+              <strong>地址：</strong>台南市東區<br />
+              <strong>聯絡：</strong>0956789012<br />
+              <strong>描述：</strong>自己大學的上課的教科書
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="data:image/webp;base64,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"
+                alt="童書"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='童書';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Ina<br />
+              <strong>地址：</strong>高雄市鼓山區<br />
+              <strong>聯絡：</strong>0987654321<br />
+              <strong>描述：</strong>保存良好的童書
+            </div>
+          </div>
+          <div class="resource-card">
+            <div class="card-image">
+              <img
+                src="https://5mtz55f1.tinifycdn.com/storage/app/uploads/public/64f/010/1e4/64f0101e46381164248985.jpg?resize.method=cover&resize.width=1200&resize.height=800"
+                alt="雜誌"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='雜誌';"
+              />
+            </div>
+            <div class="card-info">
+              <strong>用戶：</strong>Jane<br />
+              <strong>地址：</strong>屏東縣潮州鎮<br />
+              <strong>聯絡：</strong>0976543210<br />
+              <strong>描述：</strong>自己買的雜誌，完好無缺
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reviews-section" id="reviews">
+        <h2 class="reviews-title">用戶評價</h2>
+        <div
+          class="cloud"
+          style="left: 50px; top: 120px; animation-duration: 22s"
+        >
+          <p>
+            <strong>Bob：</strong>這個平台真的很方便，我找到了很多需要的東西！
+          </p>
+        </div>
+        <div
+          class="cloud"
+          style="left: 300px; top: 250px; animation-duration: 25s"
+        >
+          <p><strong>Eric：</strong>分享的物品都保存得很好，謝謝大家的愛心！</p>
+        </div>
+        <div
+          class="cloud"
+          style="left: 700px; top: 180px; animation-duration: 18s"
+        >
+          <p><strong>Judy：</strong>教材對我很有幫助，省了一大筆錢！</p>
+        </div>
+        <div
+          class="cloud"
+          style="left: 700px; top: 180px; animation-duration: 18s"
+        >
+          <p><strong>Alex：</strong>我找到我想要的資源，真是太棒了</p>
+        </div>
+        <div
+          class="cloud"
+          style="left: 700px; top: 180px; animation-duration: 18s"
+        >
+          <p><strong>陳冠廷：</strong>我很開心能將自己的資源分享給其他人</p>
+        </div>
+        <div
+          class="cloud"
+          style="left: 700px; top: 180px; animation-duration: 18s"
+        >
+          <p><strong>Dan：</strong>我喜歡幫助人，我會持續關注!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="publish-form">
+      <h2 style="text-align: center; color: #2c5f89">發佈資源</h2>
+      <div class="form-group">
+        <label for="publishCategory">資源分類:</label>
+        <select id="publishCategory">
+          <option value="food">🍎 食物</option>
+          <option value="clothing">👕 衣服</option>
+          <option value="books">📚 書籍</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="publishTitle">標題:</label>
+        <input type="text" id="publishTitle" placeholder="請輸入資源標題" />
+      </div>
+      <div class="form-group">
+        <label for="publishImage">圖片上傳:</label>
+        <input type="file" id="publishImage" accept="image/*" />
+        <img id="imagePreview" class="image-preview" src="#" alt="圖片預覽" />
+      </div>
+      <div class="form-group">
+        <label for="publishUsername">用戶名稱:</label>
+        <input type="text" id="publishUsername" placeholder="請輸入您的名稱" />
+      </div>
+      <div class="form-group">
+        <label for="publishAddress">地址:</label>
+        <input type="text" id="publishAddress" placeholder="縣市+行政區" />
+      </div>
+      <div class="form-group">
+        <label for="publishContact">聯絡方式:</label>
+        <input
+          type="text"
+          id="publishContact"
+          placeholder="電話或其他聯絡方式"
+        />
+      </div>
+      <div class="form-group">
+        <label for="publishDescription">物品描述:</label>
+        <textarea
+          id="publishDescription"
+          placeholder="詳細描述您要分享的物品"
+        ></textarea>
+      </div>
+      <button class="submit-btn">發佈資源</button>
+      <p style="text-align: center; color: #2c5f89; font-weight: bold">
+        歡迎您，gary！您現在可以發佈資源了
+      </p>
+    </div>
+
+    <div class="modal">
+      <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <h2 class="modal-title">註冊/登入</h2>
+        <form class="modal-form">
+          <div class="form-group">
+            <input type="text" placeholder="用戶名" required />
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="密碼" required />
+          </div>
+          <button type="submit" class="modal-btn">登入</button>
+          <button type="button" class="modal-btn">註冊</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // ====== 新增功能：處理發佈與顯示內容 ======
+
+      // 獲取發佈表單的元素
+      const publishForm = document.querySelector(".publish-form");
+      const publishCategorySelect = document.getElementById("publishCategory"); // 新增：獲取分類選單
+      const publishTitleInput = document.getElementById("publishTitle");
+      const publishImageInput = document.getElementById("publishImage");
+      const publishDescriptionInput =
+        document.getElementById("publishDescription");
+      const publishUsernameInput = document.getElementById("publishUsername");
+      const publishAddressInput = document.getElementById("publishAddress");
+      const publishContactInput = document.getElementById("publishContact");
+      const submitPublishBtn = document.querySelector(
+        ".publish-form .submit-btn"
+      );
+      const imagePreview = document.getElementById("imagePreview");
+
+      // 獲取各個資源分類區塊
+      const foodCategoryBlock = document.getElementById("food");
+      const clothingCategoryBlock = document.getElementById("clothing");
+      const booksCategoryBlock = document.getElementById("books");
+
+      // 監聽圖片輸入框的變化，實時預覽圖片
+      publishImageInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        } else {
+          imagePreview.src = "";
+          imagePreview.style.display = "none";
+        }
+      });
+
+      // 監聽發佈按鈕的點擊事件
+      submitPublishBtn.addEventListener("click", function (event) {
+        event.preventDefault(); // 阻止表單預設提交行為
+
+        // 獲取用戶輸入的值
+        const category = publishCategorySelect.value; // 新增：獲取選定的分類
+        const title = publishTitleInput.value;
+        const imageUrl = imagePreview.src; // 使用預覽圖片的 src
+        const description = publishDescriptionInput.value;
+        const username = publishUsernameInput.value;
+        const address = publishAddressInput.value;
+        const contact = publishContactInput.value;
+
+        // 簡單的輸入驗證
+        if (!username || !address || !contact || !description) {
+          alert("請填寫所有必填欄位 (用戶名稱、地址、聯絡方式、物品描述)！");
+          return;
+        }
+
+        // 根據選擇的分類，找到目標分類區塊
+        let targetCategoryBlock;
+        if (category === "food") {
+          targetCategoryBlock = foodCategoryBlock;
+        } else if (category === "clothing") {
+          targetCategoryBlock = clothingCategoryBlock;
+        } else if (category === "books") {
+          targetCategoryBlock = booksCategoryBlock;
+        } else {
+          alert("請選擇一個資源分類！");
+          return;
+        }
+
+        // 創建新的資源卡片元素
+        const newResourceCard = document.createElement("div");
+        newResourceCard.classList.add("resource-card");
+
+        let imageHtml = "";
+        if (imageUrl && imageUrl !== window.location.href) {
+          // 檢查是否有圖片預覽數據
+          imageHtml = `<div class="card-image">
+                      <img src="${imageUrl}" alt="${title || "用戶分享圖片"}"
+                           onerror="this.style.display='none'; this.parentElement.innerHTML='${
+                             title || "圖片載入失敗"
+                           }';" />
+                   </div>`;
+        } else {
+          // 如果沒有圖片或圖片預覽是空字符串，則顯示一個預設的方塊
+          imageHtml = `<div class="card-image" style="background: linear-gradient(45deg, #ffb366, #ffcc99);">
+                      <span>${title || "無圖片"}</span>
+                   </div>`;
+        }
+
+        newResourceCard.innerHTML = `
+      ${imageHtml}
+      <div class="card-info">
+          <strong>用戶：</strong>${username}<br />
+          <strong>地址：</strong>${address}<br />
+          <strong>聯絡：</strong>${contact}<br />
+          <strong>描述：</strong>${description}
+      </div>
+  `;
+
+        // 將新卡片插入到目標分類區塊的開頭（最新發佈的在最上面）
+        const firstResourceCard =
+          targetCategoryBlock.querySelector(".resource-card");
+        if (firstResourceCard) {
+          targetCategoryBlock.insertBefore(newResourceCard, firstResourceCard);
+        } else {
+          // 如果該分類還沒有卡片，則直接添加到分類區塊的末尾
+          targetCategoryBlock.appendChild(newResourceCard);
+        }
+
+        // 清空表單並隱藏發佈表單
+        publishCategorySelect.value = "food"; // 重設為預設分類
+        publishTitleInput.value = "";
+        publishImageInput.value = ""; // 清空文件選擇
+        imagePreview.src = "";
+        imagePreview.style.display = "none";
+        publishDescriptionInput.value = "";
+        publishUsernameInput.value = "";
+        publishAddressInput.value = "";
+        publishContactInput.value = "";
+
+        publishForm.classList.remove("show"); // 隱藏發佈表單
+        alert("資源發佈成功！");
+      });
+
+      // ====== 新增功能：用戶評價功能 - 使用長方形方框 ======
+
+      // 獲取評價區域
+      const reviewsSection = document.getElementById("reviews");
+      const reviewsTitle = reviewsSection.querySelector(".reviews-title");
+
+      // 創建一個容器來放置所有的評價卡片
+      let reviewsContainer = document.getElementById("reviewsContainer");
+      if (!reviewsContainer) {
+        // 如果容器不存在，則創建它
+        reviewsContainer = document.createElement("div");
+        reviewsContainer.id = "reviewsContainer";
+        reviewsContainer.style.display = "grid"; // 使用 Grid 佈局
+        reviewsContainer.style.gridTemplateColumns =
+          "repeat(auto-fit, minmax(280px, 1fr))"; // 響應式列
+        reviewsContainer.style.gap = "25px"; // 卡片間距
+        reviewsContainer.style.maxWidth = "1200px";
+        reviewsContainer.style.margin = "30px auto";
+        reviewsContainer.style.padding = "0 20px";
+        reviewsSection.insertBefore(reviewsContainer, reviewsTitle.nextSibling); // 插入到標題下方
+      }
+
+      // 將現有的雲朵評價移動到新的 reviewsContainer 中，並轉為 review-card 樣式
+      // 由於雲朵樣式是 `position: absolute`，我們需要移除這些，並賦予新的樣式
+      const existingClouds = reviewsSection.querySelectorAll(".cloud");
+      existingClouds.forEach((cloud) => {
+        const reviewText = cloud.querySelector("p").innerHTML;
+        const newReviewCard = document.createElement("div");
+        newReviewCard.classList.add("review-card"); // 使用新的類名
+        newReviewCard.innerHTML = reviewText; // 複製內容
+
+        // 移除舊的行內樣式，以便新的 CSS 規則生效
+        cloud.removeAttribute("style");
+        cloud.classList.remove("cloud"); // 移除舊的類名
+
+        reviewsContainer.appendChild(newReviewCard);
+        cloud.remove(); // 移除舊的雲朵元素
+      });
+
+      // 創建評價輸入框和按鈕
+      const reviewInputContainer = document.createElement("div");
+      reviewInputContainer.style.textAlign = "center";
+      reviewInputContainer.style.maxWidth = "600px";
+      reviewInputContainer.style.margin = "50px auto 20px auto";
+      reviewInputContainer.style.padding = "20px";
+      reviewInputContainer.style.background = "rgba(255, 255, 255, 0.9)";
+      reviewInputContainer.style.borderRadius = "15px";
+      reviewInputContainer.style.boxShadow = "0 5px 20px rgba(0,0,0,0.1)";
+
+      reviewInputContainer.innerHTML = `
+    <h3 style="color: #2c5f89; margin-bottom: 15px;">留下您的評價</h3>
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label for="reviewerName" style="display: block; margin-bottom: 5px; color: #2c5f89; font-weight: bold;">您的名稱:</label>
+        <input type="text" id="reviewerName" placeholder="請輸入您的名稱"
+               style="width: calc(100% - 20px); padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+    </div>
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label for="reviewText" style="display: block; margin-bottom: 5px; color: #2c5f89; font-weight: bold;">您的評價:</label>
+        <textarea id="reviewText" placeholder="請輸入您的評價..."
+                  style="width: calc(100% - 20px); padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; height: 100px; resize: vertical;"></textarea>
+    </div>
+    <button id="submitReviewBtn" class="submit-btn"
+            style="background: linear-gradient(45deg, #4682b4, #5f9ea0); color: white; border: none; padding: 12px 25px; border-radius: 20px; cursor: pointer; font-size: 16px; width: 100%; transition: all 0.3s ease;">
+        提交評價
+    </button>
+`;
+
+      reviewsSection.insertBefore(reviewInputContainer, reviewsContainer); // 插入到評價容器上方
+
+      const reviewerNameInput = document.getElementById("reviewerName");
+      const reviewTextInput = document.getElementById("reviewText");
+      const submitReviewBtn = document.getElementById("submitReviewBtn");
+
+      // 監聽提交評價按鈕
+      submitReviewBtn.addEventListener("click", function () {
+        const reviewerName = reviewerNameInput.value.trim();
+        const reviewText = reviewTextInput.value.trim();
+
+        if (!reviewerName || !reviewText) {
+          alert("請輸入您的名稱和評價內容！");
+          return;
+        }
+
+        // 創建新的評價卡片（長方形方框）
+        const newReviewCard = document.createElement("div");
+        newReviewCard.classList.add("review-card"); // 使用新的類名
+        newReviewCard.innerHTML = `
+        <p><strong>${reviewerName}：</strong>${reviewText}</p>
+    `;
+
+        // 將新的評價卡片添加到容器的開頭（最新發佈的在最上面）
+        reviewsContainer.prepend(newReviewCard);
+
+        // 清空評價表單
+        reviewerNameInput.value = "";
+        reviewTextInput.value = "";
+
+        alert("感謝您的評價！");
+      });
+
+      // ====== 現有 JavaScript 功能 (保持不變) ======
+
+      function togglePublishForm() {
+        publishForm.classList.toggle("show");
+      }
+
+      function openModal() {
+        document.querySelector(".modal").classList.add("show");
+      }
+
+      function closeModal() {
+        document.querySelector(".modal").classList.remove("show");
+      } /* 將「3. JavaScript 程式碼」部分的內容貼到這裡 */
+    </script>
+  </body>
+</html>
